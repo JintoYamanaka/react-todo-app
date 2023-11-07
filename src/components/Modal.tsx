@@ -77,7 +77,7 @@ const Modal: React.FC<ModalProps> = ({ onAdd, onCancel }) => {
   };
 
   return (
-    <StyledModal onClick={onCancel}>
+    <StyledModal>
       <ModalContent onClick={stopPropagation}>
         <StyledInput
           type="text"
