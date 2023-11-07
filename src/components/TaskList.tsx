@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import Button from "./Button";
 
-const listContainerStyle = css`
+const ListContainer = styled.div`
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -13,7 +13,7 @@ const listContainerStyle = css`
   margin: 20px 0;
 `;
 
-const listItemStyle = css`
+const ListItem = styled.div`
   padding: 10px;
   border-bottom: 1px solid #eee;
   display: flex;
@@ -25,7 +25,7 @@ const listItemStyle = css`
   }
 `;
 
-const listTitleStyle = css`
+const ListTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
@@ -39,21 +39,21 @@ interface TaskListProps {
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete }) => {
   return (
-    <div css={listContainerStyle}>
-      <div css={listTitleStyle}>TODOリスト</div>
+    <ListContainer>
+      <ListTitle>TODOリスト</ListTitle>
       {tasks.length > 0 ? (
         tasks.map((task, index) => (
-          <div key={index} css={listItemStyle}>
+          <ListItem key={index}>
             {task}
             <Button color="#f44336" onClick={() => onDelete(index)}>
               削除
             </Button>
-          </div>
+          </ListItem>
         ))
       ) : (
-        <div css={listItemStyle}>タスクがありません。</div>
+        <ListItem>タスクがありません。</ListItem>
       )}
-    </div>
+    </ListContainer>
   );
 };
 
