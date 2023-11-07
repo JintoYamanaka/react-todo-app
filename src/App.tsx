@@ -1,5 +1,5 @@
-import { useState } from "react";
 /** @jsxImportSource @emotion/react */
+import { useState, ChangeEvent } from "react";
 import { css } from "@emotion/react";
 import Button from "./components/Button"; // 作成したButtonコンポーネントをインポート
 
@@ -63,42 +63,52 @@ const listTitleStyle = css`
   text-align: center;
 `;
 
-function App() {
-  const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const App = () => {
+  const [task, setTask] = useState<string>('');
+  const [tasks, setTasks] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // タスクの追加処理
-  const addTask = () => {
+  const addTask = (): void => {
     if (task.trim().length > 0) {
       setTasks([...tasks, task]);
-      setTask("");
+      setTask('');
       setIsModalOpen(false); // モーダルを閉じる
     } else {
-      alert("タスク名は1文字以上でなければなりません。");
+      alert('タスク名は1文字以上でなければなりません。');
     }
   };
 
   // タスクの削除処理
-  const deleteTask = (index) => {
+  const deleteTask = (index: number): void => {
     const newTasks = tasks.filter((_, i) => i !== index);
     setTasks(newTasks);
   };
 
   // モーダルの開閉処理
-  const toggleModal = () => {
+  const toggleModal = (): void => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  // テキスト入力のイベントハンドラ
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setTask(e.target.value);
+  };
+
+  // モーダル外クリックのイベントハンドラ（イベント伝播の停止）
+  const handleModalClick = (e: React.MouseEvent<HTMLDivElement>): void => {
+    e.stopPropagation();
   };
 
   return (
     <div css={appStyle}>
       {isModalOpen && (
         <div css={modalStyle} onClick={toggleModal}>
-          <div css={modalContentStyle} onClick={(e) => e.stopPropagation()}>
+          <div css={modalContentStyle} onClick={handleModalClick}>
             <input
               type="text"
               value={task}
-              onChange={(e) => setTask(e.target.value)}
+              onChange={handleInputChange}
               placeholder="新しいタスクを入力"
             />
             <Button color="#2979ff" onClick={addTask}>追加</Button>
@@ -110,9 +120,9 @@ function App() {
         <div css={listTitleStyle}>TODOリスト</div>
         <Button color="#4caf50" onClick={toggleModal}>新規登録</Button>
         {tasks.length > 0 ? (
-          tasks.map((task, index) => (
+          tasks.map((taskItem, index) => (
             <div key={index} css={listItemStyle}>
-              {task}
+              {taskItem}
               <Button color="#f44336" onClick={() => deleteTask(index)}>削除</Button>
             </div>
           ))
