@@ -1,6 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 
+// ButtonのPropsの型定義を追加
+interface ButtonProps {
+  color?: string;
+}
+
 const Button = styled.button`
   padding: 10px 15px;
   min-width: 120px;
@@ -17,5 +22,10 @@ const Button = styled.button`
     opacity: 0.85;
   }
 `;
+
+// デフォルトのプロップスを設定
+Button.defaultProps = {
+  color: "#757575",
+};
 
 export default Button;
