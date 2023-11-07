@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import Button from "./Button";
 
 const ButtonContainer = styled.div`
@@ -43,20 +43,37 @@ const StyledInput = styled.input`
   box-sizing: border-box;
 `;
 
+const ErrorMessage = styled.div`
+  color: #f44336;
+  margin-top: -10px;
+  margin-bottom: 10px;
+`;
+
 interface ModalProps {
   task: string;
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onAdd: () => void;
+  onAdd: (task: string) => void; // onAdd に引数を追加
   onCancel: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({
-  task,
-  onInputChange,
-  onAdd,
-  onCancel,
-}) => {
-  // モーダル外クリックで閉じないようにするイベントハンドラ
+const Modal: React.FC<ModalProps> = ({ onAdd, onCancel }) => {
+  const [task, setTask] = useState("");
+  const [error, setError] = useState("");
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTask(e.target.value);
+    if (error) setError("");
+  };
+
+  const handleAdd = () => {
+    if (task.trim().length > 0) {
+      onAdd(task);
+      setTask(""); // タスクを追加した後、入力フィールドをリセット
+    } else {
+      setError("タスク名は1文字以上でなければなりません。");
+    }
+  };
+
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
@@ -67,11 +84,13 @@ const Modal: React.FC<ModalProps> = ({
         <StyledInput
           type="text"
           value={task}
-          onChange={onInputChange}
+          onChange={handleInputChange}
           placeholder="新しいタスクを入力"
+          aria-describedby="error-message"
         />
+        {error && <ErrorMessage id="error-message">{error}</ErrorMessage>}
         <ButtonContainer>
-          <Button color="#2979ff" onClick={onAdd}>
+          <Button color="#2979ff" onClick={handleAdd}>
             追加
           </Button>
           <Button color="#f44336" onClick={onCancel}>
