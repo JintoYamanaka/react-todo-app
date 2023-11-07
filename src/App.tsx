@@ -2,90 +2,16 @@
 import { useState, ChangeEvent } from "react";
 import { css } from "@emotion/react";
 import Button from "./components/Button";
+import Modal from "./components/Modal";
+import TaskList from "./components/TaskList";
 
 const appStyle = css`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #f7f7f7;
-`;
-
-const buttonContainerStyle = css`
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-`;
-
-const modalStyle = css`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const modalContentStyle = css`
-  background-color: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  .button-container {
-    ${buttonContainerStyle};
-  }
-`;
-
-const inputStyle = css`
-  padding: 15px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const listContainerStyle = css`
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  background-color: white;
-  padding: 20px;
-  margin: 20px 0;
-`;
-
-const listItemStyle = css`
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  &:last-child {
-    border-bottom: none;
-  }
-`;
-
-const listTitleStyle = css`
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
 `;
 
 const App = () => {
@@ -128,48 +54,21 @@ const App = () => {
   return (
     <div css={appStyle}>
       {isModalOpen && (
-        <div css={modalStyle} onClick={toggleModal}>
-          <div css={modalContentStyle} onClick={handleModalClick}>
-            <input
-              type="text"
-              value={task}
-              onChange={handleInputChange}
-              placeholder="新しいタスクを入力"
-              css={inputStyle}
-            />
-            <div className="button-container">
-              <Button color="#2979ff" onClick={addTask}>
-                追加
-              </Button>
-              <Button color="#f44336" onClick={toggleModal}>
-                キャンセル
-              </Button>
-            </div>
-          </div>
-        </div>
+        <Modal
+          task={task}
+          onInputChange={handleInputChange}
+          onAdd={addTask}
+          onCancel={toggleModal}
+        />
       )}
-      <div css={listContainerStyle}>
-        <div css={listTitleStyle}>TODOリスト</div>
-        <Button
-          color="#4caf50"
-          onClick={toggleModal}
-          css={isModalOpen ? { zIndex: 0 } : {}}
-        >
-          新規登録
-        </Button>
-        {tasks.length > 0 ? (
-          tasks.map((taskItem, index) => (
-            <div key={index} css={listItemStyle}>
-              {taskItem}
-              <Button color="#f44336" onClick={() => deleteTask(index)}>
-                削除
-              </Button>
-            </div>
-          ))
-        ) : (
-          <div css={listItemStyle}>タスクがありません。</div>
-        )}
-      </div>
+      <Button
+        color="#4caf50"
+        onClick={toggleModal}
+        css={isModalOpen ? { zIndex: 0 } : {}}
+      >
+        新規登録
+      </Button>
+      <TaskList tasks={tasks} onDelete={deleteTask} />
     </div>
   );
 };
