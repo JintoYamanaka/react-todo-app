@@ -30,10 +30,6 @@ const modalContentStyle = css`
   border-radius: 5px;
 `;
 
-const listStyle = css`
-  margin-top: 20px;
-`;
-
 const listContainerStyle = css`
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -65,7 +61,7 @@ const listTitleStyle = css`
 `;
 
 const App = () => {
-  const [task, setTask] = useState<string>('');
+  const [task, setTask] = useState<string>("");
   const [tasks, setTasks] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -73,10 +69,10 @@ const App = () => {
   const addTask = (): void => {
     if (task.trim().length > 0) {
       setTasks([...tasks, task]);
-      setTask('');
+      setTask("");
       setIsModalOpen(false); // モーダルを閉じる
     } else {
-      alert('タスク名は1文字以上でなければなりません。');
+      alert("タスク名は1文字以上でなければなりません。");
     }
   };
 
@@ -112,19 +108,31 @@ const App = () => {
               onChange={handleInputChange}
               placeholder="新しいタスクを入力"
             />
-            <Button color="#2979ff" onClick={addTask}>追加</Button>
-            <Button color="#f44336" onClick={toggleModal}>キャンセル</Button>
+            <Button color="#2979ff" onClick={addTask}>
+              追加
+            </Button>
+            <Button color="#f44336" onClick={toggleModal}>
+              キャンセル
+            </Button>
           </div>
         </div>
       )}
       <div css={listContainerStyle}>
         <div css={listTitleStyle}>TODOリスト</div>
-        <Button color="#4caf50" onClick={toggleModal} css={isModalOpen ? { zIndex: 0 } : {}}>新規登録</Button>
+        <Button
+          color="#4caf50"
+          onClick={toggleModal}
+          css={isModalOpen ? { zIndex: 0 } : {}}
+        >
+          新規登録
+        </Button>
         {tasks.length > 0 ? (
           tasks.map((taskItem, index) => (
             <div key={index} css={listItemStyle}>
               {taskItem}
-              <Button color="#f44336" onClick={() => deleteTask(index)}>削除</Button>
+              <Button color="#f44336" onClick={() => deleteTask(index)}>
+                削除
+              </Button>
             </div>
           ))
         ) : (
@@ -133,6 +141,6 @@ const App = () => {
       </div>
     </div>
   );
-}
+};
 
 export default App;
