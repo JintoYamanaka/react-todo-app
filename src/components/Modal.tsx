@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { ChangeEvent } from "react";
 import Button from "./Button";
 
-const buttonContainerStyle = css`
+const ButtonContainer = styled.div`
   display: flex;
   gap: 10px;
   justify-content: center;
 `;
 
-const modalStyle = css`
+const StyledModal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -20,12 +20,9 @@ const modalStyle = css`
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
-const modalContentStyle = css`
+const ModalContent = styled.div`
   background-color: white;
   padding: 40px;
   border-radius: 10px;
@@ -35,10 +32,15 @@ const modalContentStyle = css`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
 
-  .button-container {
-    ${buttonContainerStyle};
-  }
+const StyledInput = styled.input`
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 interface ModalProps {
@@ -47,15 +49,6 @@ interface ModalProps {
   onAdd: () => void;
   onCancel: () => void;
 }
-
-const inputStyle = css`
-  padding: 15px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
-`;
 
 const Modal: React.FC<ModalProps> = ({
   task,
@@ -69,25 +62,24 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div css={modalStyle} onClick={onCancel}>
-      <div css={modalContentStyle} onClick={stopPropagation}>
-        <input
+    <StyledModal onClick={onCancel}>
+      <ModalContent onClick={stopPropagation}>
+        <StyledInput
           type="text"
           value={task}
           onChange={onInputChange}
           placeholder="新しいタスクを入力"
-          css={inputStyle}
         />
-        <div css={buttonContainerStyle}>
+        <ButtonContainer>
           <Button color="#2979ff" onClick={onAdd}>
             追加
           </Button>
           <Button color="#f44336" onClick={onCancel}>
             キャンセル
           </Button>
-        </div>
-      </div>
-    </div>
+        </ButtonContainer>
+      </ModalContent>
+    </StyledModal>
   );
 };
 

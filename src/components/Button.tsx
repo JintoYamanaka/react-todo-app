@@ -6,7 +6,7 @@ interface ButtonProps {
   color?: string;
 }
 
-const Button = styled.button`
+const Button = styled.button<ButtonProps>`
   padding: 10px 15px;
   min-width: 120px;
   border: none;
