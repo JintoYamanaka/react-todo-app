@@ -92,7 +92,6 @@ function App() {
 
   return (
     <div css={appStyle}>
-      <Button color="#4caf50" onClick={toggleModal}>新規登録</Button>
       {isModalOpen && (
         <div css={modalStyle} onClick={toggleModal}>
           <div css={modalContentStyle} onClick={(e) => e.stopPropagation()}>
@@ -109,6 +108,7 @@ function App() {
       )}
       <div css={listContainerStyle}>
         <div css={listTitleStyle}>TODOリスト</div>
+        <Button color="#4caf50" onClick={toggleModal}>新規登録</Button>
         {tasks.length > 0 ? (
           tasks.map((task, index) => (
             <div key={index} css={listItemStyle}>
