@@ -1,6 +1,7 @@
 import { useState } from "react";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import Button from "./components/Button"; // 作成したButtonコンポーネントをインポート
 
 const appStyle = css`
   display: flex;
@@ -30,33 +31,6 @@ const modalContentStyle = css`
 
 const listStyle = css`
   margin-top: 20px;
-`;
-
-const buttonStyle = css`
-  padding: 10px 15px;
-  margin: 0 5px;
-  border: none;
-  border-radius: 20px;
-  background-color: #4caf50;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.15);
-  transition: background-color 0.3s, box-shadow 0.3s;
-
-  &:hover {
-    background-color: #45a049;
-    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
-  }
-`;
-
-const cancelButtonStyle = css`
-  margin-left: 10px;
-  background-color: #f44336;
-  color: white;
-
-  &:hover {
-    background-color: #d32f2f;
-  }
 `;
 
 const listContainerStyle = css`
@@ -118,9 +92,7 @@ function App() {
 
   return (
     <div css={appStyle}>
-      <button onClick={toggleModal} css={buttonStyle}>
-        新規登録
-      </button>
+      <Button color="#4caf50" onClick={toggleModal}>新規登録</Button>
       {isModalOpen && (
         <div css={modalStyle} onClick={toggleModal}>
           <div css={modalContentStyle} onClick={(e) => e.stopPropagation()}>
@@ -130,12 +102,8 @@ function App() {
               onChange={(e) => setTask(e.target.value)}
               placeholder="新しいタスクを入力"
             />
-            <button onClick={addTask} css={buttonStyle}>
-              追加
-            </button>
-            <button onClick={toggleModal} css={cancelButtonStyle}>
-              キャンセル
-            </button>
+            <Button color="#2979ff" onClick={addTask}>追加</Button>
+            <Button color="#f44336" onClick={toggleModal}>キャンセル</Button>
           </div>
         </div>
       )}
@@ -145,7 +113,7 @@ function App() {
           tasks.map((task, index) => (
             <div key={index} css={listItemStyle}>
               {task}
-              <button onClick={() => deleteTask(index)} css={buttonStyle}>削除</button>
+              <Button color="#f44336" onClick={() => deleteTask(index)}>削除</Button>
             </div>
           ))
         ) : (
