@@ -21,6 +21,7 @@ const modalStyle = css`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 `;
 
 const modalContentStyle = css`
@@ -118,7 +119,7 @@ const App = () => {
       )}
       <div css={listContainerStyle}>
         <div css={listTitleStyle}>TODOリスト</div>
-        <Button color="#4caf50" onClick={toggleModal}>新規登録</Button>
+        <Button color="#4caf50" onClick={toggleModal} css={isModalOpen ? { zIndex: 0 } : {}}>新規登録</Button>
         {tasks.length > 0 ? (
           tasks.map((taskItem, index) => (
             <div key={index} css={listItemStyle}>
