@@ -32,12 +32,12 @@ const ListTitle = styled.div`
   text-align: center;
 `;
 
-interface TaskListProps {
+type TaskListProps = {
   tasks: string[];
   onDelete: (index: number) => void;
-}
+};
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete }) => {
+const TaskList = ({ tasks, onDelete }: TaskListProps) => {
   return (
     <ListContainer>
       <ListTitle>TODOリスト</ListTitle>

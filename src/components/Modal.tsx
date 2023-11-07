@@ -49,12 +49,12 @@ const ErrorMessage = styled.div`
   margin-bottom: 10px;
 `;
 
-interface ModalProps {
+type ModalProps =  {
   onAdd: (task: string) => void;
   onCancel: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ onAdd, onCancel }) => {
+const Modal = ({ onAdd, onCancel }: ModalProps) => {
   const [task, setTask] = useState("");
   const [error, setError] = useState("");
 
