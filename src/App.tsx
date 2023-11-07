@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { useState, ChangeEvent } from "react";
-import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import Button from "./components/Button";
 import Modal from "./components/Modal";
 import TaskList from "./components/TaskList";
 
-const appStyle = css`
+const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,61 +15,33 @@ const appStyle = css`
 `;
 
 const App = () => {
-  const [task, setTask] = useState<string>("");
   const [tasks, setTasks] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // タスクの追加処理
-  const addTask = (): void => {
-    if (task.trim().length > 0) {
-      setTasks([...tasks, task]);
-      setTask("");
-      setIsModalOpen(false); // モーダルを閉じる
-    } else {
-      alert("タスク名は1文字以上でなければなりません。");
-    }
+  const addTask = (newTask: string) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+    setIsModalOpen(false); // モーダルを閉じる
   };
 
   // タスクの削除処理
-  const deleteTask = (index: number): void => {
-    const newTasks = tasks.filter((_, i) => i !== index);
-    setTasks(newTasks);
+  const deleteTask = (index: number) => {
+    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
   };
 
   // モーダルの開閉処理
-  const toggleModal = (): void => {
+  const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  // テキスト入力のイベントハンドラ
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setTask(e.target.value);
-  };
-
-  // モーダル外クリックのイベントハンドラ（イベント伝播の停止）
-  const handleModalClick = (e: React.MouseEvent<HTMLDivElement>): void => {
-    e.stopPropagation();
-  };
-
   return (
-    <div css={appStyle}>
-      {isModalOpen && (
-        <Modal
-          task={task}
-          onInputChange={handleInputChange}
-          onAdd={addTask}
-          onCancel={toggleModal}
-        />
-      )}
-      <Button
-        color="#4caf50"
-        onClick={toggleModal}
-        css={isModalOpen ? { zIndex: 0 } : {}}
-      >
+    <AppContainer>
+      {isModalOpen && <Modal onAdd={addTask} onCancel={toggleModal} />}
+      <Button color="#4caf50" onClick={toggleModal}>
         新規登録
       </Button>
       <TaskList tasks={tasks} onDelete={deleteTask} />
-    </div>
+    </AppContainer>
   );
 };
 

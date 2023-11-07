@@ -50,9 +50,7 @@ const ErrorMessage = styled.div`
 `;
 
 interface ModalProps {
-  task: string;
-  onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onAdd: (task: string) => void; // onAdd に引数を追加
+  onAdd: (task: string) => void;
   onCancel: () => void;
 }
 
@@ -68,7 +66,7 @@ const Modal: React.FC<ModalProps> = ({ onAdd, onCancel }) => {
   const handleAdd = () => {
     if (task.trim().length > 0) {
       onAdd(task);
-      setTask(""); // タスクを追加した後、入力フィールドをリセット
+      setTask("");
     } else {
       setError("タスク名は1文字以上でなければなりません。");
     }
