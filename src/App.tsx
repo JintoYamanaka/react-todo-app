@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useState, ChangeEvent } from "react";
 import { css } from "@emotion/react";
-import Button from "./components/Button"; // 作成したButtonコンポーネントをインポート
+import Button from "./components/Button";
 
 const appStyle = css`
   display: flex;
@@ -9,6 +9,12 @@ const appStyle = css`
   align-items: center;
   height: 100vh;
   background-color: #f7f7f7;
+`;
+
+const buttonContainerStyle = css`
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 `;
 
 const modalStyle = css`
@@ -22,12 +28,34 @@ const modalStyle = css`
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const modalContentStyle = css`
   background-color: white;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .button-container {
+    ${buttonContainerStyle};
+  }
+`;
+
+const inputStyle = css`
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const listContainerStyle = css`
@@ -107,13 +135,16 @@ const App = () => {
               value={task}
               onChange={handleInputChange}
               placeholder="新しいタスクを入力"
+              css={inputStyle}
             />
-            <Button color="#2979ff" onClick={addTask}>
-              追加
-            </Button>
-            <Button color="#f44336" onClick={toggleModal}>
-              キャンセル
-            </Button>
+            <div className="button-container">
+              <Button color="#2979ff" onClick={addTask}>
+                追加
+              </Button>
+              <Button color="#f44336" onClick={toggleModal}>
+                キャンセル
+              </Button>
+            </div>
           </div>
         </div>
       )}
