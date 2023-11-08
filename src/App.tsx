@@ -16,7 +16,7 @@ const AppContainer = styled.div`
 
 const App = () => {
   const [tasks, setTasks] = useState<string[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // タスクの追加処理
   const addTask = (newTask: string) => {
